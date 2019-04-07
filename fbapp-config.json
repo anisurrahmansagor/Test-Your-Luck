@@ -1,0 +1,11 @@
+{
+  "instant_games": {
+    "plateform_version": "1.0",
+    "navigation_menu_version": "NAV_FLOATING",
+    "custom_update_templates": {
+    	"play_turn": {
+    		"example": ""
+    	}
+    }
+  }
+}

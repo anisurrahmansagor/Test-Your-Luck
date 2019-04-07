@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="full-screen" content="yes"/>
+  <meta name="screen-orientation" content="landscape"/>
+<link rel='stylesheet' href='css/font-awesome.min.css'>
+
+
+
+  <link href="css/congrates.css" rel="stylesheet" type="text/css" />
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '653667901755314',
+      xfbml      : true,
+      version    : 'v3.2'
+    });
+    FB.AppEvents.logPageView();
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+  <script src="https://connect.facebook.net/en_US/fbinstant.6.0.js"></script>
+
+  <script type="text/javascript">
+
+    window.onload = function() {
+      FBInstant.initializeAsync().then(function() {
+        })
+
+        // Finished loading. Start the game
+        FBInstant.startGameAsync().then(function() {
+          startGame();          
+        });
+    };
+
+    function selectContext() {
+      FBInstant.context.chooseAsync()
+        .then(function() {
+            startGame();          
+        })
+    }
+
+    function startGame() {
+      if (FBInstant.context.getType() !== 'SOLO') {
+        // clear scene
+        var sceneRoot = document.getElementById('scene');
+        while (sceneRoot.firstChild) {
+          sceneRoot.removeChild(sceneRoot.firstChild);
+        }
+        // start game
+        var game = new gameplayScene(FBInstant, new backendClient(BACKEND_URL), html2canvas);
+        game.start();
+      }
+    }
+  
+  </script>
+  <button style="display: none;" id="button">Lucky</button>
+  <div><img id="play_again" src="img/play.png"></div>
+  <div id="life_div">
+    <center><small>CHANCE</small></center>
+    <div class="life" id="life1"></div>
+    <div class="life" id="life2"></div>
+    <div class="life" id="life3"></div>
+  </div>
+<div id="congrates" class="congrats">
+  <h1 style="margin-top: 45px;" id="hId">Lucky You Are <img style="width: 13%;" src="img/thumbsUp.png"></h1>
+    <button style="z-index: 999999;" id="tryAgain" onclick="javascript: newPlay();">Try Again</button>
+</div>
+<div id="badLuckId">
+  <center style="font-size: 8vw;">Bad Luck !!! <br>
+    <button id="tryAgain" onclick="javascript: newPlay();">Try Again</button>
+  </center>
+</div>
+
+
+
+<span id="boxes">
+  <div
+  	style="z-index: 99999;margin-left: 5%;margin-top: 2%;"
+    class="fb-like"
+    data-share="true"
+    data-width="450"
+    data-show-faces="true">
+  </div>
+  <div class="background">
+    <img src="img/back.jpg">
+  </div>
+
+
+  <span id="input_interface">
+	  <div class="heading"><img src=""></div>
+	  <div class="main_platform" id="input_platform_id">
+	  	<!-- <table>
+	  		<tr>
+	  			<th></th>
+	  		</tr>
+	  	</table> -->
+	  	<div class="input_div">
+	  		<div class="arrow_div">
+	  			<img src="img/arrow.gif">
+	  		</div>
+	  		<label style="color: black; font-size: 2vw;">Give Your Name <br>(Maximum 8 Characters)<br>(Minimum 2 Characters)</label><br>
+	  		<input disabled="disabled" id="input_id" type="text" name="" ><br>
+	  		<div><button disabled="disabled" id="play_button" ></button></div><br>
+
+	  		<div class="keyboard">
+			    <div class="keyboardRow">   <span class="key">Q</span>
+			    <span class="key">W</span>
+			    <span class="key">E</span>
+			    <span class="key">R</span>
+			    <span class="key">T</span>
+			    <span class="key">Y</span>
+			    <span class="key">U</span>
+			    <span class="key">I</span>
+			    <span class="key">O</span>
+			    <span class="key">P</span>
+			    <span onclick="javascript: return false;" style="background-color: rgba(255, 0, 0, 0.7215686274509804);" class="dlt_btn" id="backspace_button">&otimes;</span>
+			    </div>
+			    <div class="keyboardRow">   <span class="key">A</span>
+			    <span class="key">S</span>
+			    <span class="key">D</span>
+			    <span class="key">F</span>
+			    <span class="key">G</span>
+			    <span class="key">H</span>
+			    <span class="key">J</span>
+			    <span class="key">K</span>
+			    <span class="key">L</span>
+
+			    </div>
+			    <div class="keyboardRow">   <span class="key">Z</span>
+			    <span class="key">X</span>
+			    <span class="key">C</span>
+			    <span class="key">V</span>
+			    <span class="key">B</span>
+			    <span class="key">N</span>
+			    <span class="key">M</span>
+
+			    </div>
+			</div>
+	  	</div>
+	  </div>
+  </span>
+
+
+  <span id="game_interface">
+	  <div class="heading"><img src="img/heading2.gif"></div>
+	  <div class="characters" id="characters_id">
+
+	  </div>
+	  <div class="main_platform" id="main_platform_id">
+
+	  </div>
+  </span>
+</span>
+
+
+
+<audio id="levelUp">
+  <source src="audio/levelUp.mp3" type="audio/mpeg">
+</audio>
+<audio id="cheering">
+  <source src="audio/cheering.mp3" type="audio/mpeg">
+</audio>
+<audio id="background_music" loop>
+  <source src="audio/background.mp3" type="audio/mpeg">
+</audio>
+<audio id="fail">
+  <source src="audio/fail.mp3" type="audio/mpeg">
+</audio>
+<script src="js/jquery-3.3.1.min.js" ></script>
+<script src='js/TweenMax.min.js'></script>
+<script src='js/underscore-min.js'></script>
+<script  src="js/index.js"></script>
+<script type="text/javascript">
+  var charCount=0, array, nameLength;
+  var given_name = "Lucky"+"*";
+  var characters_array=[];
+  var background_music = document.getElementById("background_music");
+  var life=['life1','life2','life3'];
+  
+  function back_play(){
+      background_music.play();
+  }
+
+  function newPlay(){
+    location.reload();
+  }
+
+  $('.key').click(function(){
+  	if($('#input_id').val().length >= 8){
+  		return false;
+  	}
+  	if($('#input_id').val().length >= 1){// Greater Or equal 2(Two 0,1)
+  		$('#play_button').prop('disabled', false);
+  	    $('#play_button').css('filter', 'grayscale(0%)');
+  	}
+  	$('#input_id').val($('#input_id').val()+$(this).html());
+  });
+
+  $('#backspace_button').click(function(){
+  	var str = $('#input_id').val();
+  	$('#input_id').val(str.substring(0, str.length - 1));
+  	if($('#input_id').val().length < 2){
+  		$('#play_button').prop('disabled', true);
+  	    $('#play_button').css('filter', 'grayscale(100%)');
+  	}
+  });
+
+  $('#play_button').click(function(){
+  	given_name=$('#input_id').val()+"*";
+  	$('#input_platform_id').hide();
+  	$('#play_again').show();
+    $('#life_div').show();
+  	$('#game_interface').show();
+  	reset(given_name);
+  });
+
+  $( document ).ready(function() {
+      var levelUp = document.getElementById("levelUp");
+      var cheering = document.getElementById("cheering");
+      var fail = document.getElementById("fail");
+      back_play();
+  });
+
+  $('#button').click(function(){
+    $('#boxes').hide(200);
+    $('#congrates').show(200);
+    back_play();
+    cheering.play();
+    congrates();
+  });
+
+  $('#play_again').click(function(){
+    charCount=0;
+    $('#boxes').show(200);
+    $('#congrates').hide();
+    reset(given_name);
+  });
+
+  function box_change(t,box_id,char_id,sound){
+    if(sound==1){
+      charCount++;
+      levelUp.pause();
+      levelUp.play();
+      if(charCount==(nameLength-1)){
+  	    $(".front").removeAttr("onclick");
+        $('#play_again').hide();
+  	      setTimeout(function() {   
+  	        $('#button').click();
+  	      }, 1000);
+  	    }
+  	  }else{
+  	    $(".front").removeAttr("onclick");
+  	    $('.front').hide(1500);
+  	    $('.back').css('opacity', '1');
+        if(life.length>0){
+          $('#'+life[(life.length)-1]).css({"background-color": "rgba(175, 175, 175, 0.57"});
+          life.splice((life.length-1), 1);
+        }
+        if(life.length<=0){
+          setTimeout(function() { 
+            $('#play_again').hide();
+            $('#congrates').hide();
+            $('#boxes').hide(200);
+            $('#badLuckId').show(200);
+          }, 1000);
+        }
+  	    fail.play();
+  	  }
+    $(t).hide(1000);
+    $("#"+box_id).css('opacity', '1');
+    for(var k=0; k<characters_array.length; k++){
+      if($('#'+char_id).text() == $('#'+characters_array[k]).text()){
+        $('#'+characters_array[k]).css({"background-color": "red", "color": "#fff"});
+        characters_array.splice(k, 1);
+        console.log(characters_array);
+        return;
+      }
+    }
+  }
+
+  function reset(givenName){
+    back_play();
+    characters_array=[];
+    $("#main_platform_id").html('');
+    $('#characters_id').html('');
+    given_name = givenName.toUpperCase();
+    array = given_name.split("");
+    nameLength = array.length;
+    for(var i=0; i<(nameLength-1); i++){
+      $('#characters_id').append("<span id='char_"+i+"' class='charBox'>"+array[i]+"</span>");
+      characters_array.push('char_'+i);
+    }
+
+    for(var i=1; i<=nameLength; i++){
+    var random = Math.floor(Math.random()*array.length);
+    var sound;
+    if(array[random]!='*'){
+      text = array[random];
+      sound = 1;// LevelUp
+    }else{
+      text = "<img src='img/badLuck.png'>";
+      sound = 2;// Fail
+    }
+    $("#main_platform_id").append('<div class="box_div bounce"> <div onclick="box_change(this,'+"'"+'box_'+i+"'"+','+"'"+'char_id_'+i+"'"+','+sound+');" class="front"> <img src="img/box.png"> </div><div id="box_'+i+'" class="back"> <div class="character"><span id="char_id_'+i+'">'+text+'</span></div></div></div>');
+      array.splice(random, 1);
+    }
+  }
+  reset(given_name);
+</script>
+</body>
+</html>
